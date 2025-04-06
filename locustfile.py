@@ -29,4 +29,15 @@ class SimpleTasks(TaskSet):
 
 class SimpleUser(HttpUser):
     tasks = [SimpleTasks]
-    wait_time = between(1, 5)  # Simulate a wait time between requests
+    wait_time = between(1, 5)
+    weight = 2
+
+class HeavyTasks(TaskSet):
+    @task(1)
+    def heavy(self):
+        self.client.get("/heavy")
+
+class HeavyUser(HttpUser):
+    tasks = [HeavyTasks]
+    wait_time = between(1, 5) 
+    weight = 98
